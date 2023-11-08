@@ -51,7 +51,7 @@ class MyHomePage extends StatelessWidget {
                   final index = entry.key;
                   final item = entry.value;
                   if (index == 1) {
-                    final imageUrl = 'https://example.com/your_image.jpg';
+                    final imageUrl = 'https://i.imgur.com/OoEWNCk.jpg';
                     return ImageShopCard(item, imageUrl);
                   } else {
                     final cardColor = cardColors[index % cardColors.length];
