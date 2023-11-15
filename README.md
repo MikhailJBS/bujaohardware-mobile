@@ -52,3 +52,68 @@ Dalam konteks Flutter, perbedaan utama antara keduanya adalah bahwa stateless wi
 <br>
 <br>
 <br>
+
+# Tugas 8 PBP 2023/2024
+* Nama: Mikhail Haritz
+* NPM: 2206082764
+* Kelas: PBP-F
+
+##  Perbedaan antara `Navigator.push()` dan `Navigator.pushReplacement()`
+* **`Navigator.push()`** <br>digunakan untuk menambahkan route baru ke dalam tumpukan (stack) navigasi di Flutter. Ketika Anda menggunakan metode ini, route baru ditambahkan di atas route saat ini, dan pengguna dapat kembali ke route sebelumnya. <br><br> Contohnya:
+```
+// Navigasi ke halaman baru
+Navigator.push(
+  context,
+  MaterialPageRoute(builder: (context) => SecondScreen()),
+);
+```
+
+* **`Navigator.pushReplacement()`**: <br>digunakan untuk menggantikan route saat ini dengan route baru. Ini bermanfaat ketika Anda ingin menghindari pengguna kembali ke halaman sebelumnya. <br><br> Contohnya:
+```` 
+// Menggantikan halaman saat ini dengan halaman baru
+Navigator.pushReplacement(
+  context,
+  MaterialPageRoute(builder: (context) => NewScreen()),
+);
+````
+
+##  Layout Widget pada Flutter dan Konteks Penggunaannya:
+1. **`Container`:**<br> Digunakan sebagai wadah umum untuk menempatkan widget lain. Memungkinkan pengaturan seperti padding, margin, dan dekorasi.
+
+2. **`Column dan Row`:**<br> Digunakan untuk menata widget secara vertikal (Column) atau horizontal (Row). Berguna ketika perlu menampilkan widget secara berurutan.
+
+3. **`Stack`:**<br> Memungkinkan penempatan widget di atas widget lainnya, sering digunakan untuk tumpukan elemen yang tumpang tindih.
+
+4. **`ListView dan GridView`:**<br> Digunakan untuk menampilkan daftar elemen dalam bentuk vertikal (ListView) atau grid (GridView). Berguna untuk menangani daftar atau tata letak grid.
+
+5. **`Expanded dan Flexible`:**<br> Digunakan untuk mengendalikan sejauh mana widget memperluas diri dalam tata letak fleksibel, membantu dalam pengaturan ruang.
+
+6. **`SizedBox`:**<br> Digunakan untuk memberikan dimensi tetap pada widget, baik itu lebar, tinggi, atau keduanya.
+
+7. **`Card`:**<br> Sebuah wadah dengan sudut membulat dan bayangan yang sering digunakan untuk menampilkan informasi terkait.
+
+8. **`AppBar`:**<br> Mewakili baris aplikasi yang menyediakan judul dan tindakan. Digunakan sebagai elemen teratas dalam antarmuka pengguna.
+
+## Bagaimana penerapan clean architecture pada aplikasi Flutter?
+`Clean Architecture` adalah pendekatan untuk mengorganisir kode agar bersih, terpisah, dan mudah diuji. Pada aplikasi Flutter, clean architecture melibatkan pembagian kode ke dalam tiga lapisan utama: `Domain`, `Data`, dan `Presentation`.
+
+Lapisan Domain berisi aturan bisnis dan logika aplikasi. Lapisan Data berisi implementasi pengambilan data dari sumber eksternal. Lapisan Presentation adalah antarmuka pengguna dan mengurus tampilan serta input pengguna.
+
+Penggunaan clean architecture membantu memisahkan tanggung jawab, membuat kode lebih mudah diuji, dan meningkatkan fleksibilitas dan skalabilitas proyek Flutter.
+
+## Penjelasan pengimplementasian checklist pada soal.
+1. Saya membuat `screens` baru bernama `itemform.dart` untuk page formnya. Dan pada form ini saya mempunyai 4 input yakni `name`, `price`, `amount`, `description` sesuai model pada tugas `Django` sebelum UTS. Pada page ini juga saya mempunya itombol save yang saya implementasikan dengan menggunakan `ElevatedButon`. Selanjutnya saya menggunakan `validator` agar semua input valid (tidak boleh null atau tidak boleh beda tipe dengan tipe atribut modelnya)
+
+2. Pada `menu.dart` saya menggunakan `navigator` ketika tombol `Tambah Item` di tap agar bisa pindah ke halaman `itemform.dart`
+
+3. Pada halaman form, ketika tombol `save` di tap dan semua input valid, maka dia akan memunculkan popup yang berisikan informasi item dengan atribut sesuai yang telah diinput tadi.
+
+4. Saya membuat drawer dengan cara membuat file widget baru bernama `drawer.dart` dan mengimportnya ke `menu.dart`. Pada drawer ini saya membuat `ListTile` yang berisi `Icon` dan `Text` untuk setiap menu-nya. Saya juga menambahkan routing menggunakan `navigator` agar ketika salah satu menu di tap, maka dia akan pindah ke halaman yang sesuai dengan menu yang di tap. Terakhir, saya import dan build `widget` drawer ini di `menu.dart` agar bisa muncul di halaman utama.
+
+5. **Bonus**<br> Pada bonus kali ini, di halaman `itemform.dart` saya membuat sebuah class baru bernama item dengan atribut yang sama seperti saya sebutkan diatas. Setelah itu saya membuat `class` lain untuk menyimpan objek-objek dari class item tsb. Setelah itu saya membuat page baru bernama `itemlist.dart` yang berfungsi untuk menampilkan semua item yang telah dibuat oleh user dalam bentuk `card`. Terakhir, saya routing halaman `itemlist.dart` ini ke drawer dan `menu.dart` yang telah saya buat sebelumnya agar bisa diakses oleh user.
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
