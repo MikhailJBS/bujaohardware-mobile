@@ -181,7 +181,7 @@ class _ItemFormPageState extends State<ItemFormPage> {
                                       // Kirim ke Django dan tunggu respons
                                       // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
                                       final response = await request.postJson(
-                                      "http://localhost:8000/create-flutter/",
+                                      "https://mikhail-haritz-tugas.pbp.cs.ui.ac.id/create-flutter/",
                                       jsonEncode(<String, String>{
                                           'name': _name,
                                           'tier': _tier,

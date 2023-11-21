@@ -21,7 +21,7 @@ class _ItemPageState extends State<ItemPage> {
   Future<List<Item>> fetchItem() async {
     final request = context.watch<CookieRequest>();
     var response =
-        await request.get('http://127.0.0.1:8000/get-user-item-json/');
+        await request.get('https://mikhail-haritz-tugas.pbp.cs.ui.ac.id/get-user-item-json/');
 
     var data = response;
     // melakukan konversi data json menjadi object Item
