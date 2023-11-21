@@ -19,7 +19,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
     try {
       final response = await http.post(
-        Uri.parse('http://localhost:8000/register_flutter/'),
+        Uri.parse('http://localhost:8000/auth/register_flutter/'),
         body: {
           'username': username,
           'password': password,
@@ -27,7 +27,8 @@ class _RegisterPageState extends State<RegisterPage> {
       );
 
       // Check if the response is JSON
-      if (response.headers['content-type']?.contains('application/json') ?? false) {
+      if (response.headers['content-type']?.contains('application/json') ??
+          false) {
         final result = json.decode(response.body);
         if (response.statusCode == 201) {
           // Handle successful registration
@@ -66,6 +67,8 @@ class _RegisterPageState extends State<RegisterPage> {
         }
       } else {
         // The response is not JSON. Likely an HTML error page.
+        print(response.body);
+        print(response.statusCode);
         throw Exception('Received invalid response format from the server');
       }
     } catch (e) {
