@@ -1,49 +1,36 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: use_build_context_synchronously
 
-class ShopFormPage extends StatefulWidget {
-    const ShopFormPage({super.key});
+import 'package:bujaohardware/screens/list_item.dart';
+import 'package:flutter/material.dart';
+import 'package:pbp_django_auth/pbp_django_auth.dart';
+import 'package:provider/provider.dart';
+import 'dart:convert';
+
+// TODO: Impor drawer yang sudah dibuat sebelumnya
+
+class ItemFormPage extends StatefulWidget {
+    const ItemFormPage({super.key});
 
     @override
-    State<ShopFormPage> createState() => _ShopFormPageState();
+    State<ItemFormPage> createState() => _ItemFormPageState();
 }
 
-class Item {
-  final String name;
-  final int price;
-  final int amount;
-  final String description;
-
-  Item({
-    required this.name,
-    required this.price,
-    required this.amount,
-    required this.description,
-  });
-}
-
-class ItemStorage {
-  static final List<Item> _items = [];
-
-  static void addItem(Item item) {
-    _items.add(item);
-  }
-
-  static List<Item> get items => _items;
-}
-
-class _ShopFormPageState extends State<ShopFormPage> {
+class _ItemFormPageState extends State<ItemFormPage> {
     final _formKey = GlobalKey<FormState>();
     String _name = "";
+    String _tier = "";
     int _price = 0;
     int _amount = 0;
     String _description = "";
     @override
     Widget build(BuildContext context) {
+        final request = context.watch<CookieRequest>();
+
         return Scaffold(
           appBar: AppBar(
             title: const Center(
               child: Text(
-                'Add an Item!',
+                'Form Tambah Item',
               ),
             ),
             backgroundColor: Colors.indigo,
@@ -69,6 +56,29 @@ class _ShopFormPageState extends State<ShopFormPage> {
                               onChanged: (String? value) {
                                 setState(() {
                                   _name = value!;
+                                });
+                              },
+                              validator: (String? value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Name can't be empty!";
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                hintText: "Item Tier",
+                                labelText: "Item Tier",
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5.0),
+                                ),
+                              ),
+                              onChanged: (String? value) {
+                                setState(() {
+                                  _tier = value!;
                                 });
                               },
                               validator: (String? value) {
@@ -166,45 +176,37 @@ class _ShopFormPageState extends State<ShopFormPage> {
                                   backgroundColor:
                                       MaterialStateProperty.all(Colors.indigo),
                                 ),
-                                onPressed: () {
+                                onPressed: () async {
                                   if (_formKey.currentState!.validate()) {
-                                    ItemStorage.addItem(Item(
-                                      name: _name,
-                                      price: _price,
-                                      amount: _amount,
-                                      description: _description,
-                                    ));
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) {
-                                        return AlertDialog(
-                                          title: const Text('Item has been added!'),
-                                          content: SingleChildScrollView(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text('Name: $_name'),
-                                                // TODO: Munculkan value-value lainnya
-                                                Text('Price: $_price'),
-                                                Text('Amount: $_amount'),
-                                                Text('Description: $_description'),
-                                              ],
-                                            ),
-                                          ),
-                                          actions: [
-                                            TextButton(
-                                              child: const Text('OK'),
-                                              onPressed: () {
-                                                Navigator.pop(context);
-                                              },
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
-                                    _formKey.currentState!.reset();
-                                  }
+                                      // Kirim ke Django dan tunggu respons
+                                      // TODO: Ganti URL dan jangan lupa tambahkan trailing slash (/) di akhir URL!
+                                      final response = await request.postJson(
+                                      "http://localhost:8000/create-flutter/",
+                                      jsonEncode(<String, String>{
+                                          'name': _name,
+                                          'tier': _tier,
+                                          'price': _price.toString(),
+                                          'amount': _amount.toString(),
+                                          'description': _description,
+                                          // TODO: Sesuaikan field data sesuai dengan aplikasimu
+                                      }));
+                                      if (response['status'] == 'success') {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                          content: Text("Item baru berhasil disimpan!"),
+                                          ));
+                                          Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(builder: (context) => ItemPage()),
+                                          );
+                                      } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(const SnackBar(
+                                              content:
+                                                  Text("Terdapat kesalahan, silakan coba lagi."),
+                                          ));
+                                      }
+                                   }
                                 },
                                 child: const Text(
                                   "Save",

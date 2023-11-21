@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:bujaohardware/screens/menu.dart';
 import 'package:bujaohardware/screens/itemform.dart';
-import 'package:bujaohardware/screens/itemlist.dart';
+import 'package:bujaohardware/screens/list_item.dart';
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
@@ -55,23 +55,23 @@ class LeftDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.add_shopping_cart),
             title: const Text('Add Item'),
-            // Bagian redirection ke ShopFormPage
+            // Bagian redirection ke ItemFormPage
             onTap: () {
               /*
-              TODO: Buatlah routing ke ShopFormPage di sini,
-              setelah halaman ShopFormPage sudah dibuat.
+              TODO: Buatlah routing ke ItemFormPage di sini,
+              setelah halaman ItemFormPage sudah dibuat.
               */
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const ShopFormPage()));
+                  MaterialPageRoute(builder: (context) => const ItemFormPage()));
             },
           ),
           ListTile(
             leading: const Icon(Icons.list_alt_rounded),
-            title: const Text('View Items'),
-            // Bagian redirection ke ShopFormPage
+            title: const Text('View Items'),  
+            // Bagian redirection ke ItemFormPage
             onTap: () {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const ItemListPage()));
+                  MaterialPageRoute(builder: (context) => const ItemPage()));
             },
           ),
         ],
