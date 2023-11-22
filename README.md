@@ -117,3 +117,70 @@ Penggunaan clean architecture membantu memisahkan tanggung jawab, membuat kode l
 <br>
 <br>
 <br>
+
+# Tugas 9 PBP 2023/2024
+* Nama: Mikhail Haritz
+* NPM: 2206082764
+* Kelas: PBP-F
+
+## Pengambilan data JSON tanpa membuat model terlebih dahulu
+* Dengan menggunakan `dart:convert` kita bisa melakukan pengambilan data JSON tanpa membuat model di sisi Flutter terlebih dahulu. Flutter mendukung pengolahan data JSON secara dinamis dengan menggunakan library bawaan seperti `dart:convert`.
+
+* **Tanpa Membuat model** <br>**Keuntungan**: Cepat dan fleksibel untuk prototyping dan pengembangan awal. <br><br>**Kekurangan**: Kurangnya type safety, lebih rentan terhadap kesalahan runtime jika struktur JSON berubah.
+
+* **Membuat model** <br>**Keuntungan**: Type safety, lebih mudah mengelola data, dan memanfaatkan fitur-fitur OOP untuk kode yang lebih terstruktur. <br><br>**Kekurangan**: Membutuhkan waktu lebih untuk setup awal dan penyesuaian jika ada perubahan pada struktur JSON backend.
+
+##  Fungsi `CookieRequest`
+Salah satu kegunaan dari `CookieRequest` adalah untuk menyimpan session user yang logged in kedalam app flutter untuk memudahkan integrasi webserver, terutama untuk beberapa fitur yang membutuhkan session login seperti fitur `logout`, `itemForm`, serta fetching data punya user yang sedang login.
+
+## Mekanisme pengambilan data dari JSON hingga dapat ditampilkan pada Flutter.
+Singkatnya, mekanisme pengambilan data dari JSON hingga dapat ditampilkan pada Flutter adalah sebagai berikut:
+
+1. Membuat class model untuk menyimpan data yang diambil dari JSON. Class ini harus memiliki atribut yang sama dengan atribut yang ada di JSON.
+
+2. Mendapatkan `JSON` dari web server menggunakan `http.get()` atau `request.get()` serta mencantumkan `URL` endpoint yang akan diambil datanya.
+
+3. Mengubah `JSON` menjadi `List` atau `Map` menggunakan `json.decode()`. Pub `pbp_auth` telah menyediakan fungsi `get` yang otomatis mengubah json menjadi `List` atau `Map`.
+
+4. Mengambil data dari `List` atau `Map` menggunakan `List.map()` atau `Map.map()`.
+
+5. Menampilkan data yang telah diambil dari `List` atau `Map` menggunakan `ListView` atau `GridView`.
+
+## Mekanisme autentikasi dari input data akun pada Flutter ke Django
+1. Meminta input username dan password dari user.
+
+2. Membuat `CookieRequest` baru yang nantinya akan digunakan untuk mengirimkan data ke web server dan menyimpan user session yang telah ter autentikasi.
+
+3. Mengirimkan data ke web server menggunakan `CookieRequest.post()` atau pada pub `pbp_auth` telah menyediakan method `login()` dengan mencantumkan `URL` endpoint yang akan menerima data seperti message dll.
+
+4. Jika login berhasil, maka akan muncul popup yang berisi informasi bahwa login berhasil dan akan pindah ke halaman utama yang menampilkan menu.
+
+## Seluruh widget yang dipakai pada tugas ini dan jelaskan fungsinya masing-masing.
+Selain widget-widget yang telah saya jelaskan pada tugas 7, pada tugas 9 ini saya juga menggunakan widget-widget berikut:
+
+1. `Drawer` <br> Digunakan untuk membuat drawer yang berisi menu-menu yang dapat diakses oleh user. <br><br>
+2. `ListTile`<br> Digunakan untuk membuat menu-menu pada drawer serta membuat list item pada halaman `itemlist.dart`. <br><br>
+3. `TextFormField` <br> Digunakan untuk membuat input field pada halaman `itemform.dart` serta pada modul lain yang membutuhkan input seperti `login.dart` dan `register.dart`. <br><br>
+4. `ElevatedButton` <br> Digunakan untuk membuat tombol pada halaman `itemform.dart` serta pada modul lain yang membutuhkan tombol seperti `login.dart` dan `register.dart`. <br><br>
+5. `AlertDialog` <br> Digunakan untuk membuat popup pada halaman `itemform.dart` serta pada modul lain yang membutuhkan popup seperti `login.dart` dan `register.dart`. <br><br>
+6. `FutureBuilder` <br> Digunakan untuk membuat widget yang akan dibangun di masa depan. <br><br>
+7. `CircularProgressIndicator` <br> Digunakan untuk membuat indikator loading pada halaman `itemlist.dart` dan `itemform.dart`. <br><br>
+8. `ListView.builder` <br> Digunakan untuk membuat list item pada halaman `itemlist.dart`. <br><br>
+9. `GridView.builder` <br> Digunakan untuk membuat grid item pada halaman `itemlist.dart`. <br><br>
+10. `Card` <br> Digunakan untuk membuat card pada halaman `itemlist.dart`. <br><br>
+11. `FloatingActionButton`<br> Digunakan untuk membuat tombol tambah item pada halaman `itemlist.dart`. <br><br>
+
+## Penjelasan pengimplementasian checklist pada soal.
+1. Saya membuat `login.dart` dan `register.dart` yang berfungsi untuk mengambil data dari user dan mengirimkannya ke web server. Pada `login.dart` saya menggunakan `CookieRequest` untuk mengirimkan data ke web server dan menyimpan user session yang telah ter autentikasi. Jika login berhasil, maka akan muncul popup yang berisi informasi bahwa login berhasil dan akan pindah ke halaman utama yang menampilkan menu. Pada `register.dart` saya menggunakan `HTTP` dengan `.post()` untuk mengirimkan data yang diinput di field-field register ke django webserver. Jika register berhasil, maka akan muncul popup yang berisi informasi bahwa register berhasil dan akan pindah ke halaman login.
+
+2. Saya membuat model `Items` untuk menyimpan data yang dikirim dari `django` webserver saya dengan cara memakai `quicktype.io` untuk mengubah `JSON` menjadi `Dart` model. Setelah itu saya membuat `itemlist.dart` yang berfungsi untuk menampilkan semua item yang telah dibuat oleh user dalam bentuk `card`. Pada halaman ini saya menggunakan `FutureBuilder` untuk membuat widget yang akan dibangun di masa depan. Saya juga menggunakan `CircularProgressIndicator` untuk membuat indikator loading. Setelah itu saya membuat `itemform.dart` yang berfungsi untuk membuat item baru. Pada halaman ini saya menggunakan `TextFormField` untuk membuat input field dan `ElevatedButton` untuk membuat tombol. Saya juga menggunakan `AlertDialog` untuk membuat popup. Terakhir, saya membuat `drawer.dart` yang berfungsi untuk membuat drawer yang berisi menu-menu yang dapat diakses oleh user. Pada halaman ini saya menggunakan `ListTile` untuk membuat menu-menu pada drawer serta membuat list item pada halaman `itemlist.dart`.
+
+3. Pada `itemlist.dart` saya menerapkan filtering data yang dipunyai user saja dengan cara membuat sebuah fungsi pada `views.py` yang berfungsi untuk mengambil data dari database yang dipunyai user yang sedang login. Saya mengambil data nya dengan cara mengirimkan `request` dengan menggunakan `CookieRequest` yang disimpan pada saat login awal untuk mendapatkan session user yang sedang login. Setelah itu saya mengambil data dari `JSON` yang telah diubah menjadi `List` atau `Map` dengan method `.get()` yang disediakan oleh pub `pbp_auth`. Setelah itu saya membuat card untuk setiap item dan memunculkan setiap atribut dari model item itu.
+
+4. Saya membuat halaman detail dengan nama `itemdetail.dart` yang berfungsi untuk menampilkan detail dari item yang dipilih. Saya membuat sebuah `ElevatedButton` untuk setiap card yang jika ditap maka akan pindah ke halaman detail setiap item tersebut. Pada `itemdetail.dart` saya juga menambahkan back button untuk kembali ke halaman utama.
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
